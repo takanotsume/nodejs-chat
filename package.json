@@ -1,0 +1,18 @@
+{
+  "name": "nodejs-cmsmessage",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "3.x",
+    "socket.io": "0.9.x",
+    "redis": "0.8.x",
+    "php-unserialize": "0.0.x"
+  },
+  "subdomain": "hayabusa.CMSMessage",
+  "scripts": {
+    "start": "server.js"
+  },
+  "engines": {
+    "node": "0.8.x"
+  }
+}

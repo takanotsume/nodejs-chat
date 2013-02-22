@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Socket IO Chat</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="./node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.min.js"></script>
+</head>
+<body>
+
+  <form>
+    <h1>RTBF Socket.io</h1>
+    <h2> 
+      from: <input id="from" type="text" value="toto@mail.com" /><br />
+      To: <input id="to" type="text" value="" /><br />
+      Message: <input id="message" type="text" value="" /><br />
+      <input id="submit_send" type="submit" value="Send" />
+    </h2>
+  </form>
+  <br />
+  <ul class="message"></ul>
+  <script>
+
+  var socket = io.connect('http://127.0.0.1:3000/', { reconnect: false});
+  var messageList = $('ul.message');
+
+  socket.on('error', function(data) {
+  	messageList.prepend("<li>Could not connect to server.<br />Please run node chat server</li>");
+  	$('input[type="submit"]').attr('disabled','disabled');
+  });
+
+  socket.on('connect', function() { 
+    messageList.prepend('<li>Connection established. Please send your message</li>');
+
+    socket.on($("#from").val(), function (data) {
+      if (data.message!=null) {
+       messageList.prepend('<li>from: ' + data.from + '; to: ' + data.to + '; message: ' + data.message + '</li>');
+      }
+    });
+
+    socket.on('disconnect', function() {
+     messageList.prepend('<li>Connection lost</li>');
+     $('input[type="submit"]').attr('disabled','disabled');
+   });
+  });
+
+  $('#submit_send').click(function(event) {
+  	event.preventDefault();
+  	socket.emit('messageSent', { from: $("#from").val(), to: $("#to").val(), message: $("#message").val() });
+  	return false;
+  });
+
+  </script>
+
+</body>
+</html>
