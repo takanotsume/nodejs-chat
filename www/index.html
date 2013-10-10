@@ -31,6 +31,8 @@
 
   socket.on('connect', function() { 
     messageList.prepend('<li>Connection established. Please send your message</li>');
+    
+    $('input[type="submit"]').removeAttr('disabled');
 
     socket.on($("#from").val(), function (data) {
       if (data.message!=null) {
