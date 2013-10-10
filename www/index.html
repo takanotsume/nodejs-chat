@@ -21,7 +21,7 @@
   <ul class="message"></ul>
   <script>
 
-  var socket = io.connect(':3000/', { reconnect: false});
+  var socket = io.connect(':8080/', { reconnect: false});
   var messageList = $('ul.message');
 
   socket.on('error', function(data) {

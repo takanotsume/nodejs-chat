@@ -9,8 +9,8 @@ var config = require('./config')
 
 redis.auth(config.redis.password);
 
-server.listen(3000, function() {
-  console.log('HTTP server started on http://localhost:3000');
+server.listen(8080, function() {
+  console.log('HTTP server started on http://localhost:8080');
   console.log('Press Ctrl+C to stop');
 });
 
