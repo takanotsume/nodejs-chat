@@ -4,12 +4,15 @@ var config = require('./config')
   , express = require('express')
   , app = express()
   , server = require('http').createServer(app)
-  , io = require('socket.io').listen(server)
+  , io = require('socket.io').listen(server, { log: false})
   , redis = require("redis").createClient(config.redis.port, config.redis.ip);
 
 redis.auth(config.redis.password);
 
-server.listen(3000);
+server.listen(3000, function() {
+  console.log('HTTP server started on http://localhost:3000');
+  console.log('Press Ctrl+C to stop');
+});
 
 // https://github.com/LearnBoost/socket.io/wiki/Authorizing
 
@@ -53,6 +56,15 @@ io.sockets.on('connection', function (socket) {
   });
 
 });
+
+// The bodyParser, cookieParser, and session middlewares
+app.use(express.logger())
+  .use(express.static(__dirname+'/'))
+  .use(express.bodyParser())
+  .use(express.cookieParser())
+  .use(express.session({
+    secret: "factory"
+  }));
 
 app.get('/', function (req, res) {
   res.sendfile(__dirname + '/index.html');
