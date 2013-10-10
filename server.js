@@ -59,7 +59,7 @@ io.sockets.on('connection', function (socket) {
 
 // The bodyParser, cookieParser, and session middlewares
 app.use(express.logger())
-  .use(express.static(__dirname+'/'))
+  .use(express.static(__dirname+'/www'))
   .use(express.bodyParser())
   .use(express.cookieParser())
   .use(express.session({
